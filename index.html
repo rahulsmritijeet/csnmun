@@ -1,0 +1,1614 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSNMUN 2026 — Cambridge School Noida Model United Nations</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bokor&family=Sancreek&family=Splash&family=Viaoda+Libre&family=Cormorant+Garamond:ital,wght@0,300..700;1,300..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --ink: #c8d8e8;
+            --ink-light: #a0b8d0;
+            --ink-mid: #7a9ab8;
+            --bg: #060d16;
+            --bg-light: #0d1b2a;
+            --bg-mid: #0a1420;
+            --bg-card: #0f1e30;
+            --bg-hover: #132740;
+            --border: #1a3050;
+            --border-light: #152840;
+            --accent: #4a90d9;
+            --accent-light: #6aace8;
+            --accent-dim: #2a5a8a;
+            --oxford: #002147;
+            --oxford-light: #003366;
+            --highlight: #5ba0e8;
+            --muted: #3a5a7a;
+            --text-dim: #506878;
+
+            --font-title: 'Viaoda Libre', serif;
+            --font-sub: 'Splash', cursive;
+            --font-heading: 'Bokor', serif;
+            --font-label: 'Sancreek', serif;
+            --font-body: 'Cormorant Garamond', serif;
+            --font-mono: 'Space Mono', monospace;
+            --font-reading: 'EB Garamond', serif;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* ===== PAPER TEXTURE ===== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            z-index: 9999;
+            pointer-events: none;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='5' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
+            animation: paperShift 8s steps(2) infinite;
+        }
+        @keyframes paperShift {
+            0% { transform: translate(0,0); }
+            50% { transform: translate(-1%,-1%); }
+            100% { transform: translate(0,0); }
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 9997;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 15% 20%, rgba(0,33,71,0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 75%, rgba(0,51,102,0.08) 0%, transparent 40%),
+                radial-gradient(ellipse at 50% 100%, rgba(0,33,71,0.1) 0%, transparent 30%);
+        }
+
+        .vignette {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 9996;
+            pointer-events: none;
+            box-shadow: inset 0 0 250px rgba(0,0,0,0.5);
+        }
+
+        /* ===== VIDEO INTRO ===== */
+        .video-intro {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 100001;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease;
+            overflow: hidden;
+        }
+        .video-intro.hidden { opacity: 0; pointer-events: none; }
+        .video-intro video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.4;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .video-title {
+            font-family: var(--font-title);
+            font-size: 8rem;
+            color: white;
+            letter-spacing: 12px;
+            text-shadow: 0 0 80px rgba(0,33,71,0.6), 0 0 150px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: scale(0.8);
+            animation: videoTitleIn 1.5s ease 0.5s forwards;
+        }
+        .video-subtitle {
+            font-family: var(--font-sub);
+            font-size: 2.5rem;
+            color: rgba(255,255,255,0.7);
+            letter-spacing: 4px;
+            text-shadow: 0 0 40px rgba(0,0,0,0.6);
+            opacity: 0;
+            animation: videoSubIn 1.2s ease 1.5s forwards;
+            margin-top: -10px;
+        }
+        .video-year {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 8px;
+            margin-top: 20px;
+            opacity: 0;
+            animation: videoSubIn 1s ease 2.2s forwards;
+        }
+        .video-skip {
+            position: absolute;
+            bottom: 40px; right: 40px;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            pointer-events: all;
+            z-index: 3;
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 8px 20px;
+            transition: all 0.3s;
+            opacity: 0;
+            animation: videoSubIn 0.5s ease 1s forwards;
+        }
+        .video-skip:hover {
+            background: rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.7);
+            border-color: rgba(255,255,255,0.3);
+        }
+        .video-progress {
+            position: absolute;
+            bottom: 0; left: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--oxford), var(--accent));
+            z-index: 3;
+            animation: progressBar 5s linear forwards;
+        }
+        .cinema-bar {
+            position: absolute;
+            left: 0; width: 100%;
+            height: 50px;
+            background: #000;
+            z-index: 1;
+        }
+        .cinema-bar.top { top: 0; }
+        .cinema-bar.bottom { bottom: 0; }
+
+        @keyframes videoTitleIn { to { opacity: 1; transform: scale(1); } }
+        @keyframes videoSubIn { to { opacity: 1; } }
+        @keyframes progressBar { from { width: 0%; } to { width: 100%; } }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed;
+            top: 0; width: 100%;
+            z-index: 1000;
+            padding: 16px 0;
+            transition: all 0.4s ease;
+            border-bottom: 1px solid transparent;
+        }
+        .navbar.scrolled {
+            background: rgba(6,13,22,0.95);
+            backdrop-filter: blur(12px);
+            border-bottom-color: var(--border);
+            box-shadow: 0 2px 30px rgba(0,0,0,0.4);
+            padding: 10px 0;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 30px;
+        }
+        .nav-logo {
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .nav-logo-images {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+        .nav-logo-img {
+            width: 32px;
+            height: 32px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+        }
+        .nav-logo-main {
+            font-family: var(--font-title);
+            font-size: 1.8rem;
+            color: var(--ink);
+            letter-spacing: 4px;
+            line-height: 1;
+        }
+        .nav-logo-sub {
+            font-family: var(--font-mono);
+            font-size: 0.45rem;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            display: block;
+            margin-top: 1px;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--ink-mid);
+            text-decoration: none;
+            padding: 10px 22px;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 6px; left: 50%;
+            transform: translateX(-50%);
+            width: 0; height: 1px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 50%; }
+        .nav-links a:hover, .nav-links a.active { color: var(--accent-light); }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px; z-index: 1001;
+        }
+        .hamburger span {
+            width: 26px; height: 1.5px;
+            background: var(--accent);
+            transition: all 0.3s ease;
+        }
+        .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+        .hamburger.active span:nth-child(2) { opacity: 0; }
+        .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+        /* ===== PAGES ===== */
+        .page { display: none; min-height: 100vh; position: relative; z-index: 1; }
+        .page.active { display: block; }
+
+        /* Decorative */
+        .ornament {
+            text-align: center;
+            color: var(--border);
+            font-size: 1.2rem;
+            letter-spacing: 12px;
+            margin: 10px 0;
+            user-select: none;
+        }
+        .divider-line { width: 80px; height: 1px; background: var(--border); margin: 0 auto; }
+        .double-line {
+            width: 80px; margin: 0 auto;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            height: 4px;
+        }
+
+        /* ===== VINTAGE BORDER COMPONENT ===== */
+        .vintage-border {
+            position: relative;
+            border: 2px solid var(--border);
+            padding: 4px;
+        }
+        .vintage-border::before {
+            content: '';
+            position: absolute;
+            top: 6px; left: 6px; right: 6px; bottom: 6px;
+            border: 1px solid var(--border-light);
+            pointer-events: none;
+        }
+        .vintage-border::after {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(26,48,80,0.3);
+            pointer-events: none;
+        }
+
+        .vintage-border .corner-ornament {
+            position: absolute;
+            width: 20px; height: 20px;
+            z-index: 5;
+        }
+        .vintage-border .corner-ornament::before,
+        .vintage-border .corner-ornament::after {
+            content: '';
+            position: absolute;
+            background: var(--accent-dim);
+        }
+        .vintage-border .corner-ornament.tl { top: -2px; left: -2px; }
+        .vintage-border .corner-ornament.tl::before { top: 0; left: 0; width: 20px; height: 2px; }
+        .vintage-border .corner-ornament.tl::after  { top: 0; left: 0; width: 2px; height: 20px; }
+        .vintage-border .corner-ornament.tr { top: -2px; right: -2px; }
+        .vintage-border .corner-ornament.tr::before { top: 0; right: 0; width: 20px; height: 2px; }
+        .vintage-border .corner-ornament.tr::after  { top: 0; right: 0; width: 2px; height: 20px; }
+        .vintage-border .corner-ornament.bl { bottom: -2px; left: -2px; }
+        .vintage-border .corner-ornament.bl::before { bottom: 0; left: 0; width: 20px; height: 2px; }
+        .vintage-border .corner-ornament.bl::after  { bottom: 0; left: 0; width: 2px; height: 20px; }
+        .vintage-border .corner-ornament.br { bottom: -2px; right: -2px; }
+        .vintage-border .corner-ornament.br::before { bottom: 0; right: 0; width: 20px; height: 2px; }
+        .vintage-border .corner-ornament.br::after  { bottom: 0; right: 0; width: 2px; height: 20px; }
+
+        .vintage-border .edge-ornament {
+            position: absolute;
+            z-index: 5;
+        }
+        .vintage-border .edge-ornament.top,
+        .vintage-border .edge-ornament.bottom {
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-title);
+            font-size: 1.1rem;
+            color: var(--accent-dim);
+            letter-spacing: 6px;
+            line-height: 1;
+        }
+        .vintage-border .edge-ornament.top { top: -8px; background: var(--bg); padding: 0 12px; }
+        .vintage-border .edge-ornament.bottom { bottom: -8px; background: var(--bg); padding: 0 12px; }
+
+        .vintage-border .edge-ornament.left,
+        .vintage-border .edge-ornament.right {
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-family: var(--font-mono);
+            font-size: 0.4rem;
+            color: var(--muted);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        .vintage-border .edge-ornament.left { left: -30px; }
+        .vintage-border .edge-ornament.right { right: -30px; }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg) 50%, var(--bg-mid) 100%);
+        }
+
+        .hero-border {
+            position: absolute;
+            top: 80px; left: 30px; right: 30px; bottom: 30px;
+            border: 1px solid var(--border);
+            pointer-events: none;
+        }
+        .hero-border-inner {
+            position: absolute;
+            top: 4px; left: 4px; right: 4px; bottom: 4px;
+            border: 1px solid var(--border-light);
+        }
+        .hero-border-inner2 {
+            position: absolute;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border: 1px solid rgba(26,48,80,0.25);
+        }
+
+        .hero-corner {
+            position: absolute;
+            width: 35px; height: 35px;
+            border-color: var(--accent-dim);
+            border-style: solid;
+            z-index: 3;
+        }
+        .hero-corner.tl { top: 75px; left: 25px; border-width: 2px 0 0 2px; }
+        .hero-corner.tr { top: 75px; right: 25px; border-width: 2px 2px 0 0; }
+        .hero-corner.bl { bottom: 25px; left: 25px; border-width: 0 0 2px 2px; }
+        .hero-corner.br { bottom: 25px; right: 25px; border-width: 0 2px 2px 0; }
+
+        /* Corner diamond decorations */
+        .hero-corner::before {
+            content: '';
+            position: absolute;
+            width: 6px; height: 6px;
+            background: var(--accent-dim);
+            transform: rotate(45deg);
+        }
+        .hero-corner.tl::before { top: -4px; left: -4px; }
+        .hero-corner.tr::before { top: -4px; right: -4px; }
+        .hero-corner.bl::before { bottom: -4px; left: -4px; }
+        .hero-corner.br::before { bottom: -4px; right: -4px; }
+
+        .hero-watermark {
+            position: absolute;
+            font-family: var(--font-title);
+            font-size: 22rem;
+            color: rgba(74,144,217,0.015);
+            letter-spacing: 20px;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .hero-content {
+            position: relative; z-index: 2;
+            max-width: 800px;
+            padding: 0 30px;
+        }
+        .hero-est {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+        .hero-title {
+            font-family: var(--font-title);
+            font-size: 8rem;
+            color: var(--ink);
+            letter-spacing: 10px;
+            line-height: 0.9;
+        }
+        .hero-title-sub {
+            font-family: var(--font-sub);
+            font-size: 3rem;
+            color: var(--accent);
+            letter-spacing: 2px;
+            display: block;
+            margin-top: -5px;
+            margin-bottom: 20px;
+        }
+        .hero-info-line {
+            font-family: var(--font-label);
+            font-size: 1.4rem;
+            color: var(--ink-mid);
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+        }
+        .hero-date-display {
+            font-family: var(--font-title);
+            font-size: 2rem;
+            color: var(--accent-light);
+            letter-spacing: 3px;
+            margin: 20px 0 35px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 14px 38px;
+            background: var(--oxford-light);
+            color: var(--ink);
+            border: 1px solid var(--accent-dim);
+            border-radius: 0;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            background: var(--accent-dim);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,33,71,0.4);
+        }
+        .btn-secondary {
+            padding: 14px 38px;
+            background: transparent;
+            color: var(--accent);
+            border: 1px solid var(--border);
+            border-radius: 0;
+            font-family: var(--font-mono);
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn-secondary:hover {
+            background: var(--oxford-light);
+            color: var(--ink);
+            border-color: var(--oxford-light);
+            transform: translateY(-2px);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 45px; left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .scroll-indicator span {
+            font-family: var(--font-mono);
+            font-size: 0.45rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+        }
+        .scroll-line {
+            width: 1px; height: 35px;
+            background: linear-gradient(to bottom, var(--muted), transparent);
+            animation: scrollPulse 2s ease infinite;
+        }
+        @keyframes scrollPulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+
+        /* ===== SECTIONS ===== */
+        .section {
+            padding: 100px 30px;
+            position: relative;
+            background: var(--bg);
+        }
+        .section-alt {
+            background: linear-gradient(180deg, var(--bg-mid), var(--bg-light), var(--bg));
+        }
+        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 55px; }
+
+        .section-label {
+            font-family: var(--font-label);
+            font-size: 1.1rem;
+            letter-spacing: 5px;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+        .section-title {
+            font-family: var(--font-title);
+            font-size: 2.8rem;
+            color: var(--ink);
+            margin-bottom: 12px;
+            letter-spacing: 2px;
+        }
+
+        /* ===== ABOUT ===== */
+        .about-text {
+            font-family: var(--font-reading);
+            color: var(--ink-light);
+            line-height: 2;
+            font-size: 1.15rem;
+            margin-bottom: 25px;
+        }
+        .about-dropcap::first-letter {
+            font-family: var(--font-title);
+            float: left;
+            font-size: 4.5rem;
+            line-height: 0.75;
+            padding-right: 12px;
+            padding-top: 8px;
+            color: var(--accent);
+        }
+
+        /* ===== PRINCIPAL ===== */
+        .principal-section {
+            padding: 100px 30px;
+            background: var(--bg-light);
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .principal-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='fp'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23fp)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        .principal-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 50px;
+            align-items: center;
+            position: relative;
+        }
+        .principal-image-frame {
+            border: 1px solid var(--border);
+            padding: 8px;
+            position: relative;
+        }
+        .principal-image-frame::before {
+            content: '';
+            position: absolute;
+            top: -6px; left: -6px; right: -6px; bottom: -6px;
+            border: 1px solid var(--border-light);
+        }
+        .principal-image {
+            width: 100%;
+            height: 360px;
+            background: linear-gradient(135deg, var(--bg-card), var(--bg-mid));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .principal-image img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            filter: grayscale(30%) contrast(1.1) brightness(0.9);
+        }
+        .principal-image-placeholder {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--text-dim);
+            font-style: italic;
+            text-align: center;
+        }
+        .principal-label {
+            font-family: var(--font-label);
+            font-size: 1rem;
+            letter-spacing: 5px;
+            color: var(--muted);
+            margin-bottom: 12px;
+        }
+        .principal-name {
+            font-family: var(--font-title);
+            font-size: 2.2rem;
+            color: var(--ink);
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+        }
+        .principal-title-text {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+        .principal-quote {
+            font-family: var(--font-body);
+            font-style: italic;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: var(--ink-mid);
+            border-left: 1px solid var(--border);
+            padding-left: 20px;
+        }
+        .principal-quote-mark {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            color: var(--border);
+            display: block;
+            line-height: 0.5;
+            margin-bottom: 10px;
+        }
+
+        /* ===== COUNTDOWN ===== */
+        .countdown-section {
+            padding: 70px 30px;
+            background: var(--oxford);
+            color: var(--ink);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .countdown-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        .countdown-section .section-label { color: var(--muted); }
+        .countdown-section .section-title { color: rgba(200,216,232,0.9); }
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            flex-wrap: wrap;
+            margin-top: 35px;
+            position: relative;
+        }
+        .countdown-item {
+            padding: 25px 20px;
+            min-width: 110px;
+            text-align: center;
+            border: 1px solid rgba(74,144,217,0.1);
+            background: rgba(0,0,0,0.25);
+        }
+        .countdown-value {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            color: rgba(200,216,232,0.9);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        .countdown-unit {
+            font-family: var(--font-label);
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            color: var(--muted);
+        }
+        .countdown-separator {
+            display: flex; align-items: center;
+            font-family: var(--font-title);
+            font-size: 2rem;
+            color: rgba(74,144,217,0.2);
+            padding: 0 5px;
+        }
+
+        /* ===== COMMITTEES ===== */
+        .page-hero {
+            padding: 160px 30px 70px;
+            text-align: center;
+            background: linear-gradient(180deg, var(--bg-card), var(--bg));
+        }
+        .page-hero-desc {
+            font-family: var(--font-body);
+            font-style: italic;
+            color: var(--ink-mid);
+            max-width: 550px;
+            margin: 18px auto 0;
+            line-height: 1.7;
+            font-size: 1.1rem;
+        }
+
+        .committees-outer {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 0 30px 100px;
+        }
+
+        .committees-border-wrap {
+            position: relative;
+            border: 2px solid var(--border);
+            padding: 6px;
+        }
+        .committees-border-wrap::before {
+            content: '';
+            position: absolute;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border: 1px solid var(--border-light);
+            pointer-events: none;
+        }
+        .committees-border-wrap::after {
+            content: '';
+            position: absolute;
+            top: 14px; left: 14px; right: 14px; bottom: 14px;
+            border: 1px solid rgba(26,48,80,0.25);
+            pointer-events: none;
+        }
+
+        /* Corner pieces */
+        .cb-corner {
+            position: absolute;
+            z-index: 5;
+        }
+        .cb-corner::before, .cb-corner::after {
+            content: '';
+            position: absolute;
+            background: var(--accent-dim);
+        }
+        .cb-corner .diamond {
+            position: absolute;
+            width: 8px; height: 8px;
+            border: 1px solid var(--accent-dim);
+            transform: rotate(45deg);
+            background: var(--bg);
+        }
+        .cb-corner.tl { top: -2px; left: -2px; }
+        .cb-corner.tl::before { top: 0; left: 0; width: 25px; height: 2px; }
+        .cb-corner.tl::after  { top: 0; left: 0; width: 2px; height: 25px; }
+        .cb-corner.tl .diamond { top: -5px; left: -5px; }
+
+        .cb-corner.tr { top: -2px; right: -2px; }
+        .cb-corner.tr::before { top: 0; right: 0; width: 25px; height: 2px; }
+        .cb-corner.tr::after  { top: 0; right: 0; width: 2px; height: 25px; }
+        .cb-corner.tr .diamond { top: -5px; right: -5px; }
+
+        .cb-corner.bl { bottom: -2px; left: -2px; }
+        .cb-corner.bl::before { bottom: 0; left: 0; width: 25px; height: 2px; }
+        .cb-corner.bl::after  { bottom: 0; left: 0; width: 2px; height: 25px; }
+        .cb-corner.bl .diamond { bottom: -5px; left: -5px; }
+
+        .cb-corner.br { bottom: -2px; right: -2px; }
+        .cb-corner.br::before { bottom: 0; right: 0; width: 25px; height: 2px; }
+        .cb-corner.br::after  { bottom: 0; right: 0; width: 2px; height: 25px; }
+        .cb-corner.br .diamond { bottom: -5px; right: -5px; }
+
+        /* Edge center ornaments */
+        .cb-edge-top, .cb-edge-bottom {
+            position: absolute;
+            left: 50%; transform: translateX(-50%);
+            font-family: var(--font-title);
+            font-size: 0.9rem;
+            color: var(--accent-dim);
+            letter-spacing: 8px;
+            background: var(--bg);
+            padding: 0 15px;
+            z-index: 5;
+        }
+        .cb-edge-top { top: -9px; }
+        .cb-edge-bottom { bottom: -9px; }
+
+        .committees-grid-inner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+            gap: 0;
+            margin: 20px;
+            border: 1px solid var(--border-light);
+            background: var(--border-light);
+        }
+
+        .committee-card {
+            background: var(--bg);
+            border: 0.5px solid var(--border-light);
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+        .committee-card:hover { background: var(--bg-card); }
+
+        .committee-header {
+            padding: 30px;
+            border-bottom: 1px solid var(--border);
+            position: relative;
+        }
+        .committee-abbr {
+            font-family: var(--font-heading);
+            font-size: 2.4rem;
+            color: var(--accent-light);
+            letter-spacing: 3px;
+            margin-bottom: 6px;
+        }
+        .committee-fullname {
+            font-family: var(--font-label);
+            font-size: 0.95rem;
+            color: var(--muted);
+            letter-spacing: 2px;
+        }
+        .committee-body { padding: 25px 30px 32px; }
+        .agenda-label {
+            font-family: var(--font-label);
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+        .agenda-text {
+            font-family: var(--font-body);
+            font-size: 1.08rem;
+            color: var(--ink-mid);
+            line-height: 1.6;
+            font-style: italic;
+        }
+        .committee-badge {
+            position: absolute;
+            top: 16px; right: 16px;
+            padding: 4px 14px;
+            border: 1px solid var(--border);
+            font-family: var(--font-mono);
+            font-size: 0.48rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            background: var(--bg-mid);
+        }
+        .committee-special .committee-badge {
+            color: var(--accent);
+            border-color: var(--accent-dim);
+            background: rgba(74,144,217,0.05);
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 30px 60px;
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            border: 1px solid var(--border);
+            background: var(--border);
+        }
+        .contact-card {
+            padding: 30px;
+            transition: all 0.3s ease;
+            background: var(--bg);
+        }
+        .contact-card:hover { background: var(--bg-card); }
+        .contact-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            color: var(--accent-light);
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .contact-card p, .contact-card a {
+            font-family: var(--font-reading);
+            color: var(--ink-mid);
+            line-height: 1.8;
+            font-size: 0.95rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .contact-card a:hover { color: var(--accent-light); }
+        .contact-link {
+            display: block;
+            margin-top: 6px;
+            color: var(--accent) !important;
+            font-weight: 600;
+            font-family: var(--font-mono) !important;
+            font-size: 0.75rem !important;
+        }
+
+        .instagram-section {
+            text-align: center;
+            padding: 45px 30px;
+            border: 1px solid var(--border);
+            border-top: none;
+            max-width: 800px;
+            margin: -1px auto 80px;
+            background: var(--bg-card);
+        }
+        .instagram-label {
+            font-family: var(--font-label);
+            font-size: 1rem;
+            letter-spacing: 4px;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+        .instagram-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--accent);
+            text-decoration: none;
+            padding: 12px 30px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+        .instagram-link:hover {
+            background: var(--oxford-light);
+            color: var(--ink);
+            border-color: var(--oxford-light);
+        }
+
+        /* ===== REGISTER ===== */
+        .register-placeholder {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 80px 30px 120px;
+            text-align: center;
+        }
+        .register-placeholder-box {
+            border: 1px dashed var(--border);
+            padding: 80px 40px;
+            background: var(--bg-card);
+            position: relative;
+        }
+        .register-placeholder-box::before {
+            content: '';
+            position: absolute;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border: 1px dashed var(--border-light);
+        }
+        .register-coming {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            color: var(--ink);
+            margin-bottom: 15px;
+            letter-spacing: 3px;
+        }
+        .register-coming-sub {
+            font-family: var(--font-body);
+            font-style: italic;
+            font-size: 1.15rem;
+            color: var(--ink-mid);
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+        .register-contact-info {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-dim);
+            letter-spacing: 2px;
+            line-height: 2.5;
+        }
+        .register-contact-info a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .register-contact-info a:hover { color: var(--accent-light); }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--bg-mid);
+            color: var(--ink);
+            padding: 60px 30px 25px;
+            position: relative; z-index: 1;
+            border-top: 1px solid var(--border);
+        }
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            opacity: 0.02;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='ff'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23ff)'/%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 35px;
+            position: relative;
+        }
+        .footer-brand p {
+            font-family: var(--font-body);
+            color: var(--text-dim);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+        .footer .nav-logo-main { color: var(--ink-light); }
+        .footer .nav-logo-sub { color: var(--text-dim); }
+        .footer-col h4 {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            margin-bottom: 16px;
+            letter-spacing: 1px;
+            color: var(--ink-light);
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 7px; }
+        .footer-col ul li a {
+            font-family: var(--font-body);
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+        .footer-col ul li a:hover { color: var(--accent-light); }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            position: relative;
+        }
+        .footer-bottom p {
+            font-family: var(--font-mono);
+            color: var(--text-dim);
+            font-size: 0.52rem;
+            letter-spacing: 1px;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-25px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Page transition */
+        .page-transition {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--bg);
+            z-index: 999;
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.5s cubic-bezier(0.77,0,0.175,1);
+        }
+        .page-transition.active {
+            transform: scaleY(1);
+            transform-origin: top;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .footer-content { grid-template-columns: 1fr 1fr; }
+            .principal-content { grid-template-columns: 1fr; text-align: center; }
+            .principal-image-container { max-width: 260px; margin: 0 auto; }
+            .principal-quote { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 20px; }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: 0; right: -100%;
+                width: 75%; height: 100vh;
+                background: rgba(6,13,22,0.98);
+                backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 8px;
+                transition: right 0.4s ease;
+                border-left: 1px solid var(--border);
+            }
+            .nav-links.open { right: 0; }
+            .nav-links a { font-size: 0.8rem; padding: 14px 30px; }
+            .hero-title { font-size: 5rem; letter-spacing: 5px; }
+            .hero-title-sub { font-size: 2rem; }
+            .section-title { font-size: 2.2rem; }
+            .committees-grid-inner { grid-template-columns: 1fr; margin: 15px; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-border { top: 70px; left: 15px; right: 15px; bottom: 15px; }
+            .hero-corner.tl { top: 65px; left: 10px; }
+            .hero-corner.tr { top: 65px; right: 10px; }
+            .hero-corner.bl { bottom: 10px; left: 10px; }
+            .hero-corner.br { bottom: 10px; right: 10px; }
+            .video-title { font-size: 4rem; letter-spacing: 6px; }
+            .video-subtitle { font-size: 1.5rem; }
+            .cb-edge-top, .cb-edge-bottom { font-size: 0.7rem; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title { font-size: 3.5rem; letter-spacing: 3px; }
+            .hero-title-sub { font-size: 1.5rem; }
+            .hero-buttons { flex-direction: column; align-items: center; }
+            .btn-primary, .btn-secondary { width: 100%; max-width: 260px; text-align: center; }
+            .countdown-separator { display: none; }
+            .countdown-item { min-width: 70px; padding: 18px 10px; }
+            .countdown-value { font-size: 2rem; }
+            .nav-logo-main { font-size: 1.4rem; }
+            .video-title { font-size: 2.8rem; letter-spacing: 4px; }
+            .video-subtitle { font-size: 1.1rem; }
+            .video-skip { bottom: 20px; right: 20px; }
+            .committees-grid-inner { margin: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="vignette"></div>
+
+    <!-- VIDEO INTRO -->
+    <div class="video-intro" id="videoIntro">
+        <video id="introVideo" muted playsinline>
+            <source src="crazyintro.mov" type="video/mp4">
+        </video>
+    
+        <div class="video-skip" onclick="skipVideo()">Skip</div>
+        <div class="video-progress"></div>
+    </div>
+
+    <div class="page-transition" id="pageTransition"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="navigateTo('home')">
+                <div class="nav-logo-images">
+                    <img class="nav-logo-img" src="csn.png" alt="CSNMUN logo 1">
+                    <img class="nav-logo-img" src="mun.png" alt="CSNMUN logo 2">
+                </div>
+                <div>
+                    <div class="nav-logo-main">CSNMUN</div>
+                    <span class="nav-logo-sub">13<sup>th</sup> Edition — Cambridge School Noida</span>
+                </div>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#" class="active" data-page="home" onclick="navigateTo('home')">Home</a></li>
+                <li><a href="#" data-page="committees" onclick="navigateTo('committees')">Committees</a></li>
+                <li><a href="#" data-page="contact" onclick="navigateTo('contact')">Contact</a></li>
+                <li><a href="#" data-page="register" onclick="navigateTo('register')">Register</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ==================== HOME ==================== -->
+    <div class="page active" id="page-home">
+        <section class="hero">
+            <div class="hero-border">
+                <div class="hero-border-inner">
+                    <div class="hero-border-inner2"></div>
+                </div>
+            </div>
+            <div class="hero-corner tl"></div>
+            <div class="hero-corner tr"></div>
+            <div class="hero-corner bl"></div>
+            <div class="hero-corner br"></div>
+            <div class="hero-watermark">MUN</div>
+
+            <div class="hero-content">
+                <p class="hero-est">— 13<sup>th</sup> Edition —</p>
+                <h1 class="hero-title">CSNMUN</h1>
+                <span class="hero-title-sub">Cambridge School, Noida</span>
+                <div class="ornament">+ + +</div>
+                <p class="hero-info-line">Venue: Cambridge School, Sector 27, Noida</p>
+                <p class="hero-info-line">Time: 17th & 18th July, 2026</p>
+                <div class="hero-date-display">
+                    <div class="divider-line" style="margin-bottom: 12px;"></div>
+                    17th — 18th July, 2026
+                    <div class="divider-line" style="margin-top: 12px;"></div>
+                </div>
+                <div class="hero-buttons">
+                    <a href="#" class="btn-primary" onclick="navigateTo('register')">Register Now</a>
+                    <a href="#" class="btn-secondary" onclick="navigateTo('committees')">View Committees</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Countdown -->
+        <section class="countdown-section">
+            <div class="section-container">
+                <div class="section-header" style="margin-bottom: 0;">
+                    <p class="section-label">Mark Your Calendars</p>
+                    <h2 class="section-title">The Assembly Begins In</h2>
+                    <div class="divider-line" style="background: rgba(74,144,217,0.15);"></div>
+                </div>
+                <div class="countdown-container">
+                    <div class="countdown-item"><div class="countdown-value" id="days">000</div><div class="countdown-unit">Days</div></div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item"><div class="countdown-value" id="hours">00</div><div class="countdown-unit">Hours</div></div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item"><div class="countdown-value" id="minutes">00</div><div class="countdown-unit">Minutes</div></div>
+                    <div class="countdown-separator">:</div>
+                    <div class="countdown-item"><div class="countdown-value" id="seconds">00</div><div class="countdown-unit">Seconds</div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What is CSNMUN -->
+        <section class="section">
+            <div class="section-container">
+                <div class="section-header">
+                    <p class="section-label">About the Conference</p>
+                    <h2 class="section-title">What is CSNMUN?</h2>
+                    <div class="double-line"></div>
+                </div>
+                <div style="max-width: 720px; margin: 0 auto;">
+                    <p class="about-text about-dropcap">
+                        Cambridge School Noida Model United Nations is a premier inter-school MUN conference that brings together young minds from across the nation. Our conference provides a platform for students to engage in meaningful discussions on pressing global and national issues, develop public speaking skills, and foster diplomatic thinking.
+                    </p>
+                    <p class="about-text">
+                        From the halls of the United Nations General Assembly to the magical Ministry of Magic, CSNMUN 2026 offers a diverse range of committees designed to challenge, inspire, and transform every delegate. Whether you are a first-timer or a seasoned MUNner, CSNMUN promises an experience like no other.
+                    </p>
+                    <p class="about-text">
+                        Open to students of Classes VII through XII, the conference spans two days of rigorous debate, collaboration, and camaraderie — all within the distinguished campus of Cambridge School, Sector 27, Noida.
+                    </p>
+                    <div style="text-align: center; margin-top: 40px;">
+                        <div class="ornament" style="margin-bottom: 25px;">— + —</div>
+                        <a href="#" class="btn-primary" onclick="navigateTo('committees')">Explore Committees</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Principal -->
+        <section class="principal-section">
+            <div class="principal-content">
+                <div class="principal-image-container">
+                    <div class="principal-image-frame">
+                        <div class="principal-image">
+                            <img src="principalbhadwi.jpg" alt="Principal Surabhi Bhargav" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                            <div class="principal-image-placeholder" style="display: none;">[ Photograph of<br>Ms. Surabhi Bhargav ]</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <p class="principal-label">Our Principal</p>
+                    <h3 class="principal-name">Surabhi Bhargav</h3>
+                    <p class="principal-title-text">Principal — Cambridge School, Sector 27, Noida</p>
+                    <div class="principal-quote">
+                        <span class="principal-quote-mark">"</span>
+                        Education is not merely about textbooks and examinations; it is about fostering global citizens who think critically, communicate effectively, and act responsibly. CSNMUN embodies this vision — a platform where young minds learn the art of diplomacy, the power of discourse, and the importance of understanding diverse perspectives.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="nav-logo" style="margin-bottom: 12px;"><div class="nav-logo-main">CSNMUN</div><span class="nav-logo-sub">13<sup>th</sup> Edition</span></div>
+                    <p>Cambridge School, Sector 27, Noida<br>17th — 18th July, 2026</p>
+                </div>
+                <div class="footer-col"><h4>Navigate</h4><ul><li><a href="#" onclick="navigateTo('home')">Home</a></li><li><a href="#" onclick="navigateTo('committees')">Committees</a></li><li><a href="#" onclick="navigateTo('contact')">Contact</a></li><li><a href="#" onclick="navigateTo('register')">Register</a></li></ul></div>
+                <div class="footer-col"><h4>Committees</h4><ul><li><a href="#" onclick="navigateTo('committees')">UNGA</a></li><li><a href="#" onclick="navigateTo('committees')">UNSC</a></li><li><a href="#" onclick="navigateTo('committees')">UNHRC</a></li><li><a href="#" onclick="navigateTo('committees')">AIPPM</a></li><li><a href="#" onclick="navigateTo('committees')">International Press</a></li><li><a href="#" onclick="navigateTo('committees')">Ministry of Magic</a></li></ul></div>
+                <div class="footer-col"><h4>Correspondence</h4><ul><li><a href="mailto:info.csnmun@gmail.com">info.csnmun@gmail.com</a></li><li><a href="tel:+918252622752">+91 8252622752</a></li><li><a href="tel:+918744881057">+91 8744881057</a></li><li><a href="https://instagram.com/csnmun" target="_blank">@csnmun</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>MMXXVI — CSNMUN — Cambridge School Noida Model United Nations — All Rights Reserved</p></div>
+        </footer>
+    </div>
+
+    <!-- ==================== COMMITTEES ==================== -->
+    <div class="page" id="page-committees">
+        <section class="page-hero">
+            <div class="section-header">
+                <p class="section-label">Deliberative Forums</p>
+                <h2 class="section-title" style="font-size: 3.2rem;">Committees</h2>
+                <div class="double-line"></div>
+                <p class="page-hero-desc">Six distinguished committees designed to challenge your diplomacy, sharpen your rhetoric, and test your resolve.</p>
+            </div>
+        </section>
+
+        <div class="committees-outer">
+            <div class="committees-border-wrap">
+                <div class="cb-corner tl"><div class="diamond"></div></div>
+                <div class="cb-corner tr"><div class="diamond"></div></div>
+                <div class="cb-corner bl"><div class="diamond"></div></div>
+                <div class="cb-corner br"><div class="diamond"></div></div>
+                <div class="cb-edge-top">— CSNMUN —</div>
+                <div class="cb-edge-bottom">— 2026 —</div>
+
+                <div class="committees-grid-inner">
+                    <div class="committee-card">
+                        <div class="committee-header">
+                            <span class="committee-badge">UN Body</span>
+                            <div class="committee-abbr">UNGA</div>
+                            <div class="committee-fullname">United Nations General Assembly</div>
+                        </div>
+                        <div class="committee-body">
+                            <div class="agenda-label">Agenda</div>
+                            <p class="agenda-text">"Sample Agenda — Case Study on Donald Trump"</p>
+                        </div>
+                    </div>
+                    <div class="committee-card">
+                        <div class="committee-header">
+                            <span class="committee-badge">UN Body</span>
+                            <div class="committee-abbr">UNSC</div>
+                            <div class="committee-fullname">United Nations Security Council</div>
+                        </div>
+                        <div class="committee-body">
+                            <div class="agenda-label">Agenda</div>
+                            <p class="agenda-text">"Sample Agenda — Case Study on Donald Trump"</p>
+                        </div>
+                    </div>
+                    <div class="committee-card">
+                        <div class="committee-header">
+                            <span class="committee-badge">UN Body</span>
+                            <div class="committee-abbr">UNHRC</div>
+                            <div class="committee-fullname">United Nations Human Rights Council</div>
+                        </div>
+                        <div class="committee-body">
+                            <div class="agenda-label">Agenda</div>
+                            <p class="agenda-text">"Sample Agenda — Case Study on Donald Trump"</p>
+                        </div>
+                    </div>
+                    <div class="committee-card">
+                        <div class="committee-header">
+                            <span class="committee-badge">Parliament</span>
+                            <div class="committee-abbr">AIPPM</div>
+                            <div class="committee-fullname">All India Political Parties Meet</div>
+                        </div>
+                        <div class="committee-body">
+                            <div class="agenda-label">Agenda</div>
+                            <p class="agenda-text">"Sample Agenda — Case Study on Donald Trump"</p>
+                        </div>
+                    </div>
+                    <div class="committee-card">
+                        <div class="committee-header">
+                            <span class="committee-badge">Media Corps</span>
+                            <div class="committee-abbr">IP</div>
+                            <div class="committee-fullname">International Press</div>
+                        </div>
+                        <div class="committee-body">
+                            <div class="agenda-label">Agenda</div>
+                            <p class="agenda-text">"Sample Agenda — Case Study on Donald Trump"</p>
+                        </div>
+                    </div>
+                    <div class="committee-card committee-special">
+                        <div class="committee-header">
+                            <span class="committee-badge">Special</span>
+                            <div class="committee-abbr">MOM</div>
+                            <div class="committee-fullname">Ministry of Magic</div>
+                        </div>
+                        <div class="committee-body">
+                            <div class="agenda-label">Agenda</div>
+                            <p class="agenda-text">"Sample Agenda — Case Study on Donald Trump"</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-brand"><div class="nav-logo"><div class="nav-logo-main">CSNMUN</div><span class="nav-logo-sub">13<sup>th</sup> Edition</span></div><p style="margin-top:12px;">Cambridge School, Sector 27, Noida</p></div>
+                <div class="footer-col"><h4>Navigate</h4><ul><li><a href="#" onclick="navigateTo('home')">Home</a></li><li><a href="#" onclick="navigateTo('committees')">Committees</a></li><li><a href="#" onclick="navigateTo('contact')">Contact</a></li><li><a href="#" onclick="navigateTo('register')">Register</a></li></ul></div>
+                <div class="footer-col"><h4>Correspondence</h4><ul><li><a href="mailto:info.csnmun@gmail.com">info.csnmun@gmail.com</a></li><li><a href="tel:+918252622752">+91 8252622752</a></li><li><a href="tel:+918744881057">+91 8744881057</a></li></ul></div>
+                <div class="footer-col"><h4>Committees</h4><ul><li><a href="#">UNGA</a></li><li><a href="#">UNSC</a></li><li><a href="#">UNHRC</a></li><li><a href="#">AIPPM</a></li><li><a href="#">International Press</a></li><li><a href="#">Ministry of Magic</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>MMXXVI — CSNMUN — All Rights Reserved</p></div>
+        </footer>
+    </div>
+
+    <!-- ==================== CONTACT ==================== -->
+    <div class="page" id="page-contact">
+        <section class="page-hero">
+            <div class="section-header">
+                <p class="section-label">Correspondence</p>
+                <h2 class="section-title" style="font-size: 3.2rem;">Contact Us</h2>
+                <div class="double-line"></div>
+                <p class="page-hero-desc">Have enquiries regarding CSNMUN 2026? We welcome your correspondence through any of the channels listed herein.</p>
+            </div>
+        </section>
+
+        <div class="contact-content">
+            <div class="contact-grid">
+                <div class="contact-card">
+                    <h3>Electronic Mail</h3>
+                    <p>For all queries and partnerships:</p>
+                    <a href="mailto:info.csnmun@gmail.com" class="contact-link">info.csnmun@gmail.com</a>
+                </div>
+                <div class="contact-card">
+                    <h3>Telephone</h3>
+                    <p>Reach our organising committee:</p>
+                    <a href="tel:+918252622752" class="contact-link">+91 8252622752</a>
+                    <a href="tel:+918744881057" class="contact-link">+91 8744881057</a>
+                </div>
+                <div class="contact-card">
+                    <h3>Physical Address</h3>
+                    <p>Cambridge School<br>Sector 27, Noida<br>Uttar Pradesh, India</p>
+                </div>
+                <div class="contact-card">
+                    <h3>Conference Dates</h3>
+                    <p>Day I — 17th July, 2026<br>Day II — 18th July, 2026<br><br><em>Full itinerary shared post-registration.</em></p>
+                </div>
+            </div>
+            <div class="instagram-section">
+                <p class="instagram-label">Follow Us</p>
+                <a href="https://instagram.com/csnmun" target="_blank" class="instagram-link">@csnmun on Instagram</a>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-brand"><div class="nav-logo"><div class="nav-logo-main">CSNMUN</div><span class="nav-logo-sub">13<sup>th</sup> Edition</span></div><p style="margin-top:12px;">Cambridge School, Sector 27, Noida</p></div>
+                <div class="footer-col"><h4>Navigate</h4><ul><li><a href="#" onclick="navigateTo('home')">Home</a></li><li><a href="#" onclick="navigateTo('committees')">Committees</a></li><li><a href="#" onclick="navigateTo('contact')">Contact</a></li><li><a href="#" onclick="navigateTo('register')">Register</a></li></ul></div>
+                <div class="footer-col"><h4>Correspondence</h4><ul><li><a href="mailto:info.csnmun@gmail.com">info.csnmun@gmail.com</a></li><li><a href="tel:+918252622752">+91 8252622752</a></li><li><a href="tel:+918744881057">+91 8744881057</a></li></ul></div>
+                <div class="footer-col"><h4>Committees</h4><ul><li><a href="#">UNGA</a></li><li><a href="#">UNSC</a></li><li><a href="#">UNHRC</a></li><li><a href="#">AIPPM</a></li><li><a href="#">International Press</a></li><li><a href="#">Ministry of Magic</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>MMXXVI — CSNMUN — All Rights Reserved</p></div>
+        </footer>
+    </div>
+
+    <!-- ==================== REGISTER ==================== -->
+    <div class="page" id="page-register">
+        <section class="page-hero">
+            <div class="section-header">
+                <p class="section-label">Enrolment</p>
+                <h2 class="section-title" style="font-size: 3.2rem;">Registration</h2>
+                <div class="double-line"></div>
+            </div>
+        </section>
+
+        <div class="register-placeholder">
+            <div class="register-placeholder-box">
+                <div class="register-coming">Will Add Later</div>
+                <p class="register-coming-sub">Registration details for CSNMUN 2026 will be available here shortly. Please check back soon or contact us for more information.</p>
+                <div class="ornament" style="margin-bottom: 25px;">— + —</div>
+                <div class="register-contact-info">
+                    <a href="mailto:info.csnmun@gmail.com">info.csnmun@gmail.com</a><br>
+                    <a href="tel:+918252622752">+91 8252622752</a> | <a href="tel:+918744881057">+91 8744881057</a>
+                </div>
+                <div style="margin-top: 30px;">
+                    <a href="https://instagram.com/csnmun" target="_blank" class="instagram-link">Follow @csnmun</a>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-brand"><div class="nav-logo"><div class="nav-logo-main">CSNMUN</div><span class="nav-logo-sub">13<sup>th</sup> Edition</span></div><p style="margin-top:12px;">Cambridge School, Sector 27, Noida</p></div>
+                <div class="footer-col"><h4>Navigate</h4><ul><li><a href="#" onclick="navigateTo('home')">Home</a></li><li><a href="#" onclick="navigateTo('committees')">Committees</a></li><li><a href="#" onclick="navigateTo('contact')">Contact</a></li><li><a href="#" onclick="navigateTo('register')">Register</a></li></ul></div>
+                <div class="footer-col"><h4>Correspondence</h4><ul><li><a href="mailto:info.csnmun@gmail.com">info.csnmun@gmail.com</a></li><li><a href="tel:+918252622752">+91 8252622752</a></li><li><a href="tel:+918744881057">+91 8744881057</a></li></ul></div>
+                <div class="footer-col"><h4>Fees</h4><ul><li><a href="#">Individual — Rs. 2,000</a></li><li><a href="#">School — Rs. 1,000</a></li></ul></div>
+            </div>
+            <div class="footer-bottom"><p>MMXXVI — CSNMUN — All Rights Reserved</p></div>
+        </footer>
+    </div>
+
+    <script>
+        // VIDEO INTRO
+        let videoTimer;
+        const videoIntro = document.getElementById('videoIntro');
+        const introVideo = document.getElementById('introVideo');
+        window.addEventListener('load', () => {
+            introVideo.play().catch(() => {});
+            videoTimer = setTimeout(skipVideo, 5000);
+        });
+        function skipVideo() {
+            clearTimeout(videoTimer);
+            videoIntro.classList.add('hidden');
+            setTimeout(() => { videoIntro.style.display = 'none'; introVideo.pause(); }, 800);
+        }
+
+        // NAVIGATION
+        function navigateTo(page) {
+            event.preventDefault();
+            document.getElementById('navLinks').classList.remove('open');
+            document.getElementById('hamburger').classList.remove('active');
+            const t = document.getElementById('pageTransition');
+            t.classList.add('active');
+            setTimeout(() => {
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                document.getElementById('page-' + page).classList.add('active');
+                document.querySelectorAll('.nav-links a').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.dataset.page === page) link.classList.add('active');
+                });
+                window.scrollTo(0, 0);
+                setTimeout(() => t.classList.remove('active'), 300);
+            }, 450);
+        }
+        function toggleMenu() {
+            document.getElementById('navLinks').classList.toggle('open');
+            document.getElementById('hamburger').classList.toggle('active');
+        }
+
+        // NAVBAR
+        window.addEventListener('scroll', () => {
+            document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // COUNTDOWN
+        function updateCountdown() {
+            const target = new Date('July 17, 2026 09:00:00').getTime();
+            const diff = target - Date.now();
+            if (diff > 0) {
+                document.getElementById('days').textContent = String(Math.floor(diff / 864e5)).padStart(3, '0');
+                document.getElementById('hours').textContent = String(Math.floor((diff % 864e5) / 36e5)).padStart(2, '0');
+                document.getElementById('minutes').textContent = String(Math.floor((diff % 36e5) / 6e4)).padStart(2, '0');
+                document.getElementById('seconds').textContent = String(Math.floor((diff % 6e4) / 1e3)).padStart(2, '0');
+            }
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
+```
