@@ -1146,6 +1146,20 @@
             transform: scaleY(1);
             transform-origin: top;
         }
+        
+        .matrix-link {
+            border: 1px solid var(--border) !important;
+            padding: 7px 16px !important;
+            margin-left: 8px;
+            transition: all 0.3s ease !important;
+        }
+        .matrix-link:hover {
+            border-color: var(--accent) !important;
+            background: rgba(74,144,217,0.08);
+        }
+        .matrix-link::after {
+            display: none !important;
+        }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
