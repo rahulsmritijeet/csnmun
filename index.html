@@ -1009,6 +1009,10 @@
             color: var(--ink);
             border-color: var(--oxford-light);
         }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.5); }
+        }
 
         /* ===== REGISTER ===== */
         .register-placeholder {
@@ -1310,6 +1314,54 @@
                     <div class="countdown-item"><div class="countdown-value" id="minutes">00</div><div class="countdown-unit">Minutes</div></div>
                     <div class="countdown-separator">:</div>
                     <div class="countdown-item"><div class="countdown-value" id="seconds">00</div><div class="countdown-unit">Seconds</div></div>
+                </div>
+                                <!-- LIVE BANNER — shown only after countdown ends -->
+                <div id="liveBanner" style="display: none; margin-top: 40px; text-align: center;">
+                    <div style="
+                        display: inline-block;
+                        border: 1px solid rgba(74,144,217,0.3);
+                        padding: 22px 50px;
+                        position: relative;
+                        background: rgba(0,0,0,0.3);
+                    ">
+                        <!-- top-left corner -->
+                        <span style="position:absolute;top:-2px;left:-2px;width:14px;height:14px;border-top:2px solid var(--accent-dim);border-left:2px solid var(--accent-dim);"></span>
+                        <!-- top-right corner -->
+                        <span style="position:absolute;top:-2px;right:-2px;width:14px;height:14px;border-top:2px solid var(--accent-dim);border-right:2px solid var(--accent-dim);"></span>
+                        <!-- bottom-left corner -->
+                        <span style="position:absolute;bottom:-2px;left:-2px;width:14px;height:14px;border-bottom:2px solid var(--accent-dim);border-left:2px solid var(--accent-dim);"></span>
+                        <!-- bottom-right corner -->
+                        <span style="position:absolute;bottom:-2px;right:-2px;width:14px;height:14px;border-bottom:2px solid var(--accent-dim);border-right:2px solid var(--accent-dim);"></span>
+
+                        <!-- pulsing live dot -->
+                        <span style="
+                            display: inline-block;
+                            width: 8px; height: 8px;
+                            background: #4a90d9;
+                            border-radius: 50%;
+                            margin-right: 14px;
+                            vertical-align: middle;
+                            animation: livePulse 1.4s ease infinite;
+                            box-shadow: 0 0 10px rgba(74,144,217,0.7);
+                        "></span>
+
+                        <span style="
+                            font-family: var(--font-label);
+                            font-size: 1.6rem;
+                            color: var(--ink);
+                            letter-spacing: 6px;
+                            vertical-align: middle;
+                        ">The Conference is Live Now</span>
+                    </div>
+
+                    <div style="
+                        margin-top: 14px;
+                        font-family: var(--font-mono);
+                        font-size: 0.52rem;
+                        color: var(--muted);
+                        letter-spacing: 4px;
+                        text-transform: uppercase;
+                    ">17th — 18th July, 2026 &nbsp;·&nbsp; Cambridge School, Sector 27, Noida</div>
                 </div>
             </div>
         </section>
@@ -1691,10 +1743,20 @@ Federal Structure with the Possibility of Rising Authoritarian Tendencies."</p>
                 document.getElementById('hours').textContent = String(Math.floor((diff % 864e5) / 36e5)).padStart(2, '0');
                 document.getElementById('minutes').textContent = String(Math.floor((diff % 36e5) / 6e4)).padStart(2, '0');
                 document.getElementById('seconds').textContent = String(Math.floor((diff % 6e4) / 1e3)).padStart(2, '0');
+            } else {
+                // Hide countdown, show live banner
+                document.getElementById('days').textContent = '000';
+                document.getElementById('hours').textContent = '00';
+                document.getElementById('minutes').textContent = '00';
+                document.getElementById('seconds').textContent = '00';
+                document.querySelector('.countdown-container').style.display = 'none';
+                document.getElementById('liveBanner').style.display = 'block';
+                clearInterval(countdownInterval);
             }
         }
+        const countdownInterval = setInterval(updateCountdown, 1000);
         updateCountdown();
-        setInterval(updateCountdown, 1000);
+
     </script>
 </body>
 </html>
